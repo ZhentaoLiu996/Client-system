@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>First Nations Portfolio - Education Team Portal</title>
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar with Adelaide Navy Theme -->
+  <nav class="top-nav">
+    <div class="brand-title">
+      <span>🏛️ First Nations Portfolio | Education Team Portal</span>
+    </div>
+    <div class="step-pills">
+      <button class="step-btn active" onclick="goToStep(1)">1. Secure Login</button>
+      <button class="step-btn" onclick="goToStep(2)">2. Overview</button>
+      <button class="step-btn" onclick="goToStep(3)">3. Search & Filter</button>
+      <button class="step-btn" onclick="goToStep(4)">4. Details</button>
+      <button class="step-btn" onclick="goToStep(5)">5. Needs Summary</button>
+      <button class="step-btn" onclick="goToStep(6)">6. Reporting & Export</button>
+      <button class="step-btn" onclick="goToStep(7)">7. Emerging Patterns</button>
+    </div>
+  </nav>
+
+  <div class="main-viewport">
+
+    <!-- Step 1: Secure Login -->
+    <section id="step1" class="page-section active">
+      <div class="login-wrapper">
+        <div class="card login-card">
+          <div class="login-header">
+            <div class="icon-lock">🔒</div>
+            <h2>SECURE Login</h2>
+            <p>First Nations Portfolio & Education Team</p>
+          </div>
+
+          <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+              <label>Staff ID / Email</label>
+              <input type="text" id="loginUser" placeholder="e.g. staff_id@portal.edu.au" value="staff_member@portal.edu.au" required />
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="loginPass" placeholder="Enter your password" value="••••••••" required />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+              Log in →
+            </button>
+          </form>
+
+          <div class="login-footer">
+            <p><strong>AUTHORISED ACCESS ONLY</strong></p>
+            <p>This portal is for designated Education Team members only.</p>
+            <p class="ack-country"><em>Acknowledgement of Country embedded for both.</em></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 2: Response Overview -->
+    <section id="step2" class="page-section">
+      <div class="page-header">
+        <div>
+          <h2>👋 Welcome to your Response Overview</h2>
+          <p>Portal 2: High-level metrics, completion rates & support requests</p>
+        </div>
+        <div class="header-filters">
+          <select>
+            <option>All Courses</option>
+            <option>COMP 1015</option>
+            <option>STAT 1000</option>
+            <option>INFO 1013</option>
+            <option>INFO 1016</option>
+          </select>
+          <select>
+            <option>Semester 1, 2026</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Core Metrics Row -->
+      <div class="stats-row">
+        <div class="card stat-card">
+          <div class="stat-title">Total Response</div>
+          <div class="stat-value">48</div>
+          <div class="stat-subtext">Across all courses ↑12%</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-title">Teaching Academics</div>
+          <div class="stat-value">32</div>
+          <div class="stat-subtext">Have submitted reflection</div>
+        </div>
+        <div class="card stat-card alert">
+          <div class="stat-title">Support Requests</div>
+          <div class="stat-value val-alert">17</div>
+          <div class="stat-subtext txt-alert">Require attention/action</div>
+        </div>
+        <div class="card stat-card stat-progress">
+          <div>
+            <div class="stat-title">Completion Rate</div>
+            <div class="stat-value">67%</div>
+            <div class="stat-subtext text-muted">Target: 80%</div>
+          </div>
+          <div class="circle-box">
+            <canvas id="gaugeChart2"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overview Charts Row -->
+      <div class="charts-row">
+        <div class="card">
+          <div class="card-title">Response Trends</div>
+          <div class="chart-box"><canvas id="trendChart2"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Support Needs Distribution</div>
+          <div class="chart-box"><canvas id="barChart2"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Recent Submissions and Quick Actions -->
+      <div class="overview-bottom-grid">
+        <div class="card">
+          <div class="card-title">Recent Submissions</div>
+          <table>
+            <thead>
+              <tr><th>Date</th><th>Course Code</th><th>Course Name</th><th>Status</th><th>Support</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>18/04</td><td>COMP 1015</td><td>Computing Innovation</td><td><span class="badge badge-ok">Done</span></td><td><span class="badge badge-urgent">Yes</span></td></tr>
+              <tr><td>16/04</td><td>STAT 1000</td><td>Data Skill</td><td><span class="badge badge-ok">Done</span></td><td><span class="badge badge-ok">No</span></td></tr>
+              <tr><td>14/04</td><td>INFO 1013</td><td>System Requirement</td><td><span class="badge badge-ok">Done</span></td><td><span class="badge badge-urgent">Yes</span></td></tr>
+              <tr><td>12/04</td><td>INFO 1016</td><td>Security Foundation</td><td><span class="badge badge-ok">Done</span></td><td><span class="badge badge-ok">No</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-title">Quick Actions</div>
+          <div class="btn-vertical-stack">
+            <button class="btn btn-outline" onclick="goToStep(3)">🔍 Search & Filter Staff</button>
+            <button class="btn btn-outline" onclick="goToStep(5)">📅 Plan Follow-up Support</button>
+            <button class="btn btn-primary" onclick="goToStep(6)">📥 Export Data (CSV/Excel)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-footer">
+        <button class="btn btn-outline" onclick="goToStep(1)">← Back to Login</button>
+        <button class="btn btn-primary" onclick="goToStep(3)">Next: Search & Filter (3) →</button>
+      </div>
+    </section>
+
+    <!-- Step 3: Search & Filter -->
+    <section id="step3" class="page-section">
+      <div class="page-header">
+        <div>
+          <h2>🔍 Search & Filter Submissions</h2>
+          <p>Portal 3: Locate specific audits, filter by course code, discipline, or support needs</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="filter-controls-row">
+          <div>
+            <label>Search Course Code or Name</label>
+            <input type="text" id="searchInput" placeholder="e.g. COMP 1015, STAT 1000..." onkeyup="filterTable3()" />
+          </div>
+          <div>
+            <label>Subject Area</label>
+            <select id="facultyFilter" onchange="filterTable3()">
+              <option value="All">All Disciplines</option>
+              <option value="Computing">Computing (COMP)</option>
+              <option value="Statistics">Statistics (STAT)</option>
+              <option value="InfoTech">InfoTech (INFO)</option>
+            </select>
+          </div>
+          <div>
+            <label>Support Needed?</label>
+            <select id="supportFilter" onchange="filterTable3()">
+              <option value="All">All</option>
+              <option value="Yes">Yes Only</option>
+              <option value="No">No Only</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-reset" onclick="resetFilter3()">Reset</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <table id="tableStep3">
+          <thead>
+            <tr>
+              <th>Submission Date</th>
+              <th>Course Code</th>
+              <th>Course Name</th>
+              <th>Area</th>
+              <th>Support Request Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>18/04/2026</td>
+              <td>COMP 1015</td>
+              <td>Computing Innovation</td>
+              <td>Computing</td>
+              <td><span class="badge badge-urgent">Support Required</span></td>
+              <td><button class="btn btn-outline btn-sm" onclick="viewCourseDetails('COMP 1015', 'Computing Innovation', 'Computing')">View Details ↗</button></td>
+            </tr>
+            <tr>
+              <td>16/04/2026</td>
+              <td>STAT 1000</td>
+              <td>Data Skill</td>
+              <td>Statistics</td>
+              <td><span class="badge badge-ok">No Support Needed</span></td>
+              <td><button class="btn btn-outline btn-sm" onclick="viewCourseDetails('STAT 1000', 'Data Skill', 'Statistics')">View Details ↗</button></td>
+            </tr>
+            <tr>
+              <td>15/04/2026</td>
+              <td>INFO 1013</td>
+              <td>System Requirement</td>
+              <td>InfoTech</td>
+              <td><span class="badge badge-urgent">Support Required</span></td>
+              <td><button class="btn btn-outline btn-sm" onclick="viewCourseDetails('INFO 1013', 'System Requirement', 'InfoTech')">View Details ↗</button></td>
+            </tr>
+            <tr>
+              <td>12/04/2026</td>
+              <td>INFO 1016</td>
+              <td>Security Foundation</td>
+              <td>InfoTech</td>
+              <td><span class="badge badge-ok">No Support Needed</span></td>
+              <td><button class="btn btn-outline btn-sm" onclick="viewCourseDetails('INFO 1016', 'Security Foundation', 'InfoTech')">View Details ↗</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flow-footer">
+        <button class="btn btn-outline" onclick="goToStep(2)">← Back to Overview</button>
+        <button class="btn btn-primary" onclick="goToStep(4)">Next: Response Details (4) →</button>
+      </div>
+    </section>
+
+    <!-- Step 4: Response Details -->
+    <section id="step4" class="page-section">
+      <div class="page-header">
+        <div>
+          <h2>📋 Response Details</h2>
+          <p>Portal 4: View an individual academic's course reflection and support areas</p>
+        </div>
+        <button class="btn btn-outline" onclick="goToStep(3)">← Back to Search Table</button>
+      </div>
+
+      <div class="details-two-col">
+        <div>
+          <div class="card">
+            <h3 class="section-heading">Course & Staff Information</h3>
+            <div class="info-list">
+              <p><strong>Course Code:</strong> <span id="detailCourseCode">COMP 1015</span></p>
+              <p><strong>Course Name:</strong> <span id="detailCourseName">Computing Innovation</span></p>
+              <p><strong>Discipline Area:</strong> <span id="detailFaculty">Computing</span></p>
+              <p><strong>Submission Date:</strong> 18/04/2026</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="section-heading">Curriculum Reflection Ratings (1 = Not Confident, 5 = Confident)</h3>
+            <table class="table-compact">
+              <tr><td>Teaching appropriate content</td><td>●●●○○ (3/5)</td></tr>
+              <tr><td>Applying culturally-safe practices</td><td>●●○○○ (2/5)</td></tr>
+              <tr><td>Seeking support where needed</td><td>●●●●○ (4/5)</td></tr>
+            </table>
+          </div>
+
+          <div class="card">
+            <h3 class="section-heading">Academic's Reflection Notes</h3>
+            <blockquote id="detailReflection" class="reflection-quote">
+              "In COMP 1015 (Computing Innovation), we want to incorporate First Nations technologies and digital innovation perspectives into lecture case studies, but need guidance on culturally appropriate resource repositories."
+            </blockquote>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <h3 class="section-heading">Requested Support Areas</h3>
+            <div class="checkbox-stack">
+              <label><input type="checkbox" checked /> Guidance on appropriate resources</label>
+              <label><input type="checkbox" checked /> Examples of best practice</label>
+              <label><input type="checkbox" /> Teaching with community connection</label>
+              <label><input type="checkbox" /> Other tailored workshop</label>
+            </div>
+          </div>
+
+          <div class="card card-accent-top">
+            <h3 class="section-heading heading-accent">Education Team Actions / Notes</h3>
+            <textarea id="teamInternalNote" rows="4" placeholder="Add private note for education team review...">Assigned to First Nations Cultural Advisor. Scheduled curriculum consultation for COMP 1015 in Week 9.</textarea>
+            <div class="btn-group-sm">
+              <button class="btn btn-primary btn-sm" onclick="alert('Note Saved securely!')">Save Note</button>
+              <button class="btn btn-outline btn-sm" onclick="alert('Marked as Completed!')">Mark Resolved</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-footer">
+        <button class="btn btn-outline" onclick="goToStep(3)">← Back to Search (3)</button>
+        <button class="btn btn-primary" onclick="goToStep(5)">Next: Support Needs Summary (5) →</button>
+      </div>
+    </section>
+
+    <!-- Step 5: Support Needs Summary -->
+    <section id="step5" class="page-section">
+      <div class="page-header">
+        <div>
+          <h2>📊 Support Needs Summary</h2>
+          <p>Portal 5: Turning responses into insights for action & planning</p>
+        </div>
+      </div>
+
+      <div class="needs-two-col">
+        <div class="card">
+          <h3 class="section-heading">Common Support Needs (Ranked by 26 academics)</h3>
+          <div class="chart-box-lg">
+            <canvas id="supportRankChart5"></canvas>
+          </div>
+          <p class="chart-insight">
+            <em>Insight:</em> Highest demand across Computing Innovation and System Requirement is for verified case studies.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 class="section-heading">Planning Priorities & Action Items</h3>
+          <div class="planning-items">
+            <p>1. Develop and share practical resource guides for tech courses.</p>
+            <p>2. Provide teaching strategy support workshops.</p>
+            <p>3. Showcase approved cross-faculty examples.</p>
+            <p>4. Strengthen community connections.</p>
+          </div>
+
+          <hr class="divider" />
+          <h4 class="subheading">Next Steps:</h4>
+          <div class="checkbox-stack">
+            <label><input type="checkbox" checked /> Develop quick-start package for COMP/INFO courses</label>
+            <label><input type="checkbox" checked /> Plan faculty working series</label>
+            <label><input type="checkbox" /> Collect and share best practices</label>
+            <label><input type="checkbox" /> Explore community partnership</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-footer">
+        <button class="btn btn-outline" onclick="goToStep(4)">← Back to Details (4)</button>
+        <button class="btn btn-primary" onclick="goToStep(6)">Next: Reporting & Export (6) →</button>
+      </div>
+    </section>
+
+    <!-- Step 6: Reporting & Export -->
+    <section id="step6" class="page-section">
+      <div class="page-header">
+        <div>
+          <h2>📄 Reporting & Export</h2>
+          <p>Portal 6: Configure parameters, preview report metrics, and generate official deliverables</p>
+        </div>
+      </div>
+
+      <div class="export-two-col">
+        <div class="card">
+          <h3 class="export-step-title">1. Reporting Period</h3>
+          <div class="radio-stack">
+            <label><input type="radio" name="p_period" /> This Month</label>
+            <label><input type="radio" name="p_period" checked /> This Semester (Sem 1, 2026)</label>
+            <label><input type="radio" name="p_period" /> This Year</label>
+            <label><input type="radio" name="p_period" /> Custom Date Range</label>
+          </div>
+
+          <h3 class="export-step-title">2. Target Course Scope</h3>
+          <select class="mb-14">
+            <option>All Audited Courses</option>
+            <option>COMP 1015 - Computing Innovation</option>
+            <option>STAT 1000 - Data Skill</option>
+            <option>INFO 1013 - System Requirement</option>
+            <option>INFO 1016 - Security Foundation</option>
+          </select>
+
+          <h3 class="export-step-title">3. Include Sections</h3>
+          <div class="checkbox-stack mb-16">
+            <label><input type="checkbox" checked /> Participation & Engagement</label>
+            <label><input type="checkbox" checked /> Support Needs Breakdown</label>
+            <label><input type="checkbox" checked /> Reflections & Thematic Highlights</label>
+            <label><input type="checkbox" /> Demographics</label>
+            <label><input type="checkbox" checked /> Recommendations & Action Plan</label>
+          </div>
+
+          <h3 class="export-step-title">4. Export Format</h3>
+          <div class="format-options">
+            <label><input type="radio" name="exp_fmt" id="fmtPdf" checked /> PDF (Summary)</label>
+            <label><input type="radio" name="exp_fmt" id="fmtExcel" /> Excel (Raw Data)</label>
+          </div>
+
+          <button class="btn btn-primary btn-block" onclick="triggerDownload()">
+            📥 Generate & Download Report
+          </button>
+        </div>
+
+        <div class="card preview-card">
+          <div class="preview-title">
+            <span>👁️ Report Preview:</span>
+            <span class="preview-subtitle">First Nations Portfolio Curriculum Audit</span>
+          </div>
+
+          <div class="preview-metrics-grid">
+            <div class="metric-pill">
+              <div class="pill-label">Staff Engaged</div>
+              <div class="pill-val">152</div>
+            </div>
+            <div class="metric-pill">
+              <div class="pill-label">Completion</div>
+              <div class="pill-val">87%</div>
+            </div>
+            <div class="metric-pill">
+              <div class="pill-label">Confidence</div>
+              <div class="pill-val">78%</div>
+            </div>
+            <div class="metric-pill">
+              <div class="pill-label">Actions</div>
+              <div class="pill-val">14</div>
+            </div>
+          </div>
+
+          <div class="preview-chart-wrapper">
+            <div class="chart-caption">Participation Growth (Feb - Jun)</div>
+            <div class="chart-box-sm">
+              <canvas id="previewTrendChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-footer">
+        <button class="btn btn-outline" onclick="goToStep(5)">← Back to Needs Summary (5)</button>
+        <button class="btn btn-primary" onclick="goToStep(7)">Next: Emerging Patterns (7) →</button>
+      </div>
+    </section>
+
+    <!-- Step 7: Emerging Patterns -->
+    <section id="step7" class="page-section">
+      <div class="page-header">
+        <div>
+          <h2>📈 Emerging Patterns & Strategic Insights</h2>
+          <p>Portal 7: Tracking multi-semester confidence growth & high-level thematic patterns</p>
+        </div>
+      </div>
+
+      <div class="patterns-card-grid">
+        <div class="card border-top-primary">
+          <div class="pattern-card-title">1. Curriculum Emergence</div>
+          <p class="pattern-card-desc">
+            High interest in introductory Indigenous perspectives across COMP 1015 & INFO 1013.
+          </p>
+        </div>
+        <div class="card border-top-secondary">
+          <div class="pattern-card-title">2. Increase in Support</div>
+          <p class="pattern-card-desc">
+            Academics actively reaching out for 1-on-1 consultations with First Nations elders and advisors.
+          </p>
+        </div>
+        <div class="card border-top-gold">
+          <div class="pattern-card-title">3. Common Themes</div>
+          <p class="pattern-card-desc">
+            Consistent staff anxiety around inadvertent misrepresentation or cultural protocol breaches.
+          </p>
+        </div>
+        <div class="card border-top-blue">
+          <div class="pattern-card-title">4. Organization Values</div>
+          <p class="pattern-card-desc">
+            Strong institutional alignment toward Reconciliation Action Plan (RAP) deliverables.
+          </p>
+        </div>
+      </div>
+
+      <div class="patterns-bottom-grid">
+        <div class="card">
+          <div class="card-title">Staff Confidence Trend (Multi-Semester)</div>
+          <div class="chart-box-md">
+            <canvas id="confidenceMultiSemChart"></canvas>
+          </div>
+          <p class="chart-insight">
+            Average confidence score across courses increased steadily from 2.8/5.0 to 3.9/5.0.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Strategic Opportunities</div>
+          <div class="opportunities-stack">
+            <div class="opp-item opp-primary">
+              <strong>Targeted Professional Development:</strong> Launch resource toolkits for Computing & IT courses.
+            </div>
+            <div class="opp-item opp-secondary">
+              <strong>Share and Celebrate Practice:</strong> Annual curriculum showcase honoring best integrations.
+            </div>
+            <div class="opp-item opp-blue">
+              <strong>Strengthen Community Connection:</strong> Establish direct Indigenous tech guest lecturing networks.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-footer">
+        <button class="btn btn-outline" onclick="goToStep(6)">← Back to Reporting & Export (6)</button>
+        <button class="btn btn-primary" onclick="goToStep(2)">🔄 Return to Overview (2)</button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Connect logic script -->
+  <script src="script.js"></script>
+</body>
+</html>
