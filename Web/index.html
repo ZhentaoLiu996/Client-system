@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>First Nations Self-Audit & Education Team Portal</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- 顶部主导航 -->
+  <nav class="top-nav">
+    <div class="brand-title">
+      <span>🏛️ First Nations Portfolio</span>
+    </div>
+
+    <!-- 角色切换开关 -->
+    <div class="role-switcher">
+      <button id="roleBtnStaff" class="role-pill active" onclick="switchRole('staff')">👨‍🏫 Teaching Staff View</button>
+      <button id="roleBtnTeam" class="role-pill" onclick="switchRole('team')">📊 Education Team Portal</button>
+    </div>
+
+    <!-- 步骤导航条（根据当前角色自动切换） -->
+    <div id="staffNavPills" class="step-pills">
+      <button class="step-btn active" onclick="goToStep('survey-welcome')">Welcome</button>
+      <button class="step-btn" onclick="goToStep('survey-step1')">1. Course</button>
+      <button class="step-btn" onclick="goToStep('survey-step2')">2. Confidence</button>
+      <button class="step-btn" onclick="goToStep('survey-step3')">3. Reflection</button>
+      <button class="step-btn" onclick="goToStep('survey-step4')">4. Development</button>
+      <button class="step-btn" onclick="goToStep('survey-review')">5. Review</button>
+      <button class="step-btn" onclick="goToStep('survey-success')">Logged</button>
+    </div>
+
+    <div id="teamNavPills" class="step-pills" style="display: none;">
+      <button class="step-btn active" onclick="goToStep('team-login')">Login</button>
+      <button class="step-btn" onclick="goToStep('team-overview')">Overview</button>
+      <button class="step-btn" onclick="goToStep('team-search')">Submissions</button>
+      <button class="step-btn" onclick="goToStep('team-details')">Details</button>
+      <button class="step-btn" onclick="goToStep('team-needs')">Needs Summary</button>
+      <button class="step-btn" onclick="goToStep('team-export')">Export</button>
+      <button class="step-btn" onclick="goToStep('team-patterns')">Patterns</button>
+    </div>
+  </nav>
+
+  <div class="main-viewport">
+
+    <!-- ========================================== -->
+    <!-- 模块一：TEACHING STAFF 端 (自查问卷流程)   -->
+    <!-- ========================================== -->
+
+    <!-- 欢迎引导页 -->
+    <section id="survey-welcome" class="page-section active">
+      <div class="card survey-container text-center">
+        <p class="step-subtitle">FIRST NATIONS SELF-AUDIT</p>
+        <h2 class="survey-heading">Welcome to the Self-Audit</h2>
+        <p class="survey-desc">
+          A space for you to reflect on how Aboriginal and Torres Strait Islander knowledges are incorporated into your teaching.
+        </p>
+
+        <div class="welcome-ack-box">
+          <p>
+            "We acknowledge the Kaurna people, the original custodians of the Adelaide Plains and the lands on which we gather, live, and learn. We respect and value their past, present, and ongoing connection to the land and cultural beliefs."
+          </p>
+        </div>
+
+        <div class="value-prop-list text-left">
+          <div class="value-item">
+            <span class="icon-circle">🍃</span>
+            <div>
+              <strong>For reflection and support</strong>
+              <p>A tool to help you think, plan & grow.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <span class="icon-circle">🔒</span>
+            <div>
+              <strong>Your responses are confidential</strong>
+              <p>Your answers are only accessible by authorised members of the Education Team.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <span class="icon-circle">👥</span>
+            <div>
+              <strong>No judgement</strong>
+              <p>This is a supportive tool, not an assessment.</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-block mt-24" onclick="goToStep('survey-step1')">
+          Get Started →
+        </button>
+      </div>
+    </section>
+
+    <!-- Step 1: 课程选择 -->
+    <section id="survey-step1" class="page-section">
+      <div class="card survey-container text-center">
+        <p class="step-subtitle">STEP 1 OF 5</p>
+        <h2 class="survey-heading">Select your course(s)</h2>
+        <p class="survey-desc">Choose one or more courses you teach.</p>
+
+        <div class="survey-content text-left">
+          <input type="text" placeholder="🔍 Start typing to search courses..." class="search-input-pill mb-16" />
+
+          <div class="checkbox-option-box">
+            <label><input type="checkbox" id="c_info1012" checked /> INFO 1012 Information Technology Systems</label>
+          </div>
+          <div class="checkbox-option-box">
+            <label><input type="checkbox" id="c_comp1015" /> COMP 1015 Computing Innovations in the Modern World</label>
+          </div>
+          <div class="checkbox-option-box">
+            <label><input type="checkbox" id="c_info1016" /> INFO 1016 Security Foundations</label>
+          </div>
+          <div class="checkbox-option-box">
+            <label><input type="checkbox" id="c_other" /> Other (please specify)</label>
+            <input type="text" placeholder="Type course name here..." class="inline-sub-input" />
+          </div>
+        </div>
+
+        <div class="wizard-footer">
+          <button class="btn btn-outline" onclick="goToStep('survey-welcome')">← Back</button>
+          <button class="btn btn-primary" onclick="goToStep('survey-step2')">Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 2: 信心评分 -->
+    <section id="survey-step2" class="page-section">
+      <div class="card survey-container text-center">
+        <p class="step-subtitle">STEP 2 OF 5</p>
+        <h2 class="survey-heading">Your Confidence</h2>
+        <p class="survey-desc">
+          Rate your confidence in the following area<br />
+          <em>(1 = Not confident, 5 = Very confident)</em>
+        </p>
+
+        <table class="matrix-table mb-24">
+          <thead>
+            <tr>
+              <th style="text-align: left;">CRITERIA</th>
+              <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left;">I can incorporate First Nations perspectives in my teaching.</td>
+              <td><input type="radio" name="conf1" /></td>
+              <td><input type="radio" name="conf1" /></td>
+              <td><input type="radio" name="conf1" checked /></td>
+              <td><input type="radio" name="conf1" /></td>
+              <td><input type="radio" name="conf1" /></td>
+            </tr>
+            <tr>
+              <td style="text-align: left;">I feel confident finding appropriate resources.</td>
+              <td><input type="radio" name="conf2" /></td>
+              <td><input type="radio" name="conf2" checked /></td>
+              <td><input type="radio" name="conf2" /></td>
+              <td><input type="radio" name="conf2" /></td>
+              <td><input type="radio" name="conf2" /></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="wizard-footer">
+          <button class="btn btn-outline" onclick="goToStep('survey-step1')">← Back</button>
+          <button class="btn btn-primary" onclick="goToStep('survey-step3')">Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 3: 反思文本 -->
+    <section id="survey-step3" class="page-section">
+      <div class="card survey-container text-center">
+        <p class="step-subtitle">STEP 3 OF 5</p>
+        <h2 class="survey-heading">Reflection</h2>
+        <p class="survey-desc">P.S. Your reflection contributes to meaningful change!</p>
+
+        <div class="survey-content text-left">
+          <div class="mb-20">
+            <label class="font-bold">How are Aboriginal and Torres Strait Islander knowledges currently incorporated in your course(s)?</label>
+            <textarea id="staffReflect1" rows="3">In INFO 1012, students analyze requirement gathering with diverse groups. We want to add First Nations digital perspectives.</textarea>
+          </div>
+
+          <div class="mb-20">
+            <label class="font-bold">What are the main challenges you experience?</label>
+            <textarea id="staffReflect2" rows="3">Anxiety around cultural protocol breaches and lack of verified academic examples.</textarea>
+          </div>
+        </div>
+
+        <div class="wizard-footer">
+          <button class="btn btn-outline" onclick="goToStep('survey-step2')">← Back</button>
+          <button class="btn btn-primary" onclick="goToStep('survey-step4')">Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 4: 支援需求 -->
+    <section id="survey-step4" class="page-section">
+      <div class="card survey-container text-center">
+        <p class="step-subtitle">STEP 4 OF 5</p>
+        <h2 class="survey-heading">Development</h2>
+        <p class="survey-desc">
+          What areas would you like support with? (Select all that apply)<br />
+          <em>Not used to evaluate your performance.</em>
+        </p>
+
+        <div class="survey-content text-left mb-16">
+          <div class="checkbox-option-box">
+            <label><input type="checkbox" checked /> Guidance on appropriate resources</label>
+          </div>
+          <div class="checkbox-option-box">
+            <label><input type="checkbox" checked /> Examples of best practice</label>
+          </div>
+          <div class="checkbox-option-box">
+            <label><input type="checkbox" /> Teaching strategies</label>
+          </div>
+          <div class="checkbox-option-box">
+            <label><input type="checkbox" /> Connecting with community</label>
+          </div>
+          <div class="checkbox-option-box">
+            <label><input type="checkbox" /> Other (please specify)</label>
+            <input type="text" placeholder="Type here..." class="inline-sub-input" />
+          </div>
+        </div>
+
+        <p class="text-muted small-text mb-20 text-left">
+          Note: Your responses help the Education Team identify useful support needs, resources & opportunities.
+        </p>
+
+        <div class="wizard-footer">
+          <button class="btn btn-outline" onclick="goToStep('survey-step3')">← Back</button>
+          <button class="btn btn-primary" onclick="goToStep('survey-review')">Review →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 5: 审核提交 -->
+    <section id="survey-review" class="page-section">
+      <div class="card survey-container text-center">
+        <p class="step-subtitle">FINAL STEP</p>
+        <h2 class="survey-heading">Review your responses</h2>
+        <p class="survey-desc">Please check your answers before submitting.</p>
+
+        <div class="survey-content text-left mb-20">
+          <div class="review-row">
+            <span>Course(s): INFO 1012</span>
+            <span class="check-icon">✓</span>
+          </div>
+          <div class="review-row">
+            <span>Confidence: Completed (2 Ratings)</span>
+            <span class="check-icon">✓</span>
+          </div>
+          <div class="review-row">
+            <span>Reflection: Completed</span>
+            <span class="check-icon">✓</span>
+          </div>
+          <div class="review-row">
+            <span>Development: 2 items selected</span>
+            <span class="check-icon">✓</span>
+          </div>
+
+          <div class="mt-20">
+            <label class="consent-label">
+              <input type="checkbox" checked />
+              <span>I confirm that my responses are genuine, and will only be accessed by authorised members of the Education Team.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="wizard-footer">
+          <button class="btn btn-outline" onclick="goToStep('survey-step4')">← Back</button>
+          <button class="btn btn-primary" onclick="goToStep('survey-success')">Submit Securely</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 提交成功确认页 -->
+    <section id="survey-success" class="page-section">
+      <div class="card survey-container text-center">
+        <div class="success-badge-circle">✓</div>
+        <h2 class="survey-heading mt-12">Audit Officially Logged</h2>
+        <p class="survey-desc">Thank you, <strong>Rohan Kanungo</strong>. Your reflection has been securely recorded.</p>
+
+        <div class="next-steps-pink-box text-left mb-24">
+          <strong>What happens next?</strong>
+          <ul class="bullet-list-sm mt-8">
+            <li>Your responses are securely stored.</li>
+            <li>They will only be accessed by authorised members of the Education Team.</li>
+            <li>Your feedback helps inform future support & professional development opportunities.</li>
+          </ul>
+        </div>
+
+        <button class="btn btn-primary btn-block" onclick="switchRole('team'); goToStep('team-overview');">
+          Go to Education Team Dashboard →
+        </button>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- 模块二：EDUCATION TEAM 端 (审核管理后台)   -->
+    <!-- ========================================== -->
+
+    <!-- Team Login -->
+    <section id="team-login" class="page-section">
+      <div class="login-wrapper">
+        <div class="card login-card text-center">
+          <div class="icon-lock">🔒</div>
+          <h2>Education Team Portal</h2>
+          <p class="text-muted mb-16">Authorised Staff Access</p>
+
+          <form onsubmit="handleTeamLogin(event)">
+            <div class="form-group text-left">
+              <label>Staff ID / Email</label>
+              <input type="text" id="loginUser" value="education_team@adelaide.edu.au" required />
+            </div>
+            <div class="form-group text-left">
+              <label>Password</label>
+              <input type="password" id="loginPass" value="••••••••" required />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-12">
+              Log in →
+            </button>
+          </form>
+
+          <div class="login-footer">
+            <p><strong>Authorized Access Only</strong></p>
+            <p>Education Team Management Dashboard</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Overview -->
+    <section id="team-overview" class="page-section">
+      <div class="page-header">
+        <div>
+          <h2>Welcome to your Response Overview</h2>
+        </div>
+        <div class="header-filters">
+          <select>
+            <option>All Courses</option>
+            <option>INFO 1012</option>
+            <option>COMP 1003</option>
+            <option>INFO 1016</option>
+            <option>STAT 1000</option>
+          </select>
+          <select>
+            <option>Semester 1, 2026</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="card stat-card">
+          <div class="stat-title">Total Response</div>
+          <div class="stat-value">48</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-title">Teaching Academics</div>
+          <div class="stat-value">32</div>
+        </div>
+        <div class="card stat-card alert">
+          <div class="stat-title">Support Requests</div>
+          <div class="stat-value val-alert">17</div>
+        </div>
+        <div class="card stat-card stat-progress">
+          <div>
+            <div class="stat-title">Completion Rate</div>
+            <div class="stat-value">67%</div>
+          </div>
+          <div class="circle-box">
+            <canvas id="gaugeChart2"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="card">
+          <div class="card-title">Response Trends (Monthly)</div>
+          <div class="chart-box"><canvas id="trendChart2"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Support Needs Distribution</div>
+          <div class="chart-box"><canvas id="barChart2"></canvas></div>
+        </div>
+      </div>
+
+      <div class="overview-bottom-grid">
+        <div class="card">
+          <div class="card-title">Recent Submissions</div>
+          <table>
+            <thead>
+              <tr><th>Date</th><th>Course Code</th><th>Course Name</th><th>Status</th><th>Support</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>18/04</td><td>INFO 1012</td><td>Information technology systems</td><td><span class="badge badge-ok">Done</span></td><td><span class="badge badge-urgent">Yes</span></td></tr>
+              <tr><td>16/04</td><td>COMP 1003</td><td>Structured Data</td><td><span class="badge badge-ok">Done</span></td><td><span class="badge badge-ok">No</span></td></tr>
+              <tr><td>14/04</td><td>INFO 1016</td><td>Security Foundation</td><td><span class="badge badge-ok">Done</span></td><td><span class="badge badge-urgent">Yes</span></td></tr>
+              <tr><td>12/04</td><td>STAT 1000</td><td>Data Skills</td><td><span class="badge badge-ok">Done</span></td><td><span class="badge badge-ok">No</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-title">Quick Actions</div>
+          <div class="btn-vertical-stack">
+            <button class="btn btn-outline" onclick="goToStep('team-search')">🔍 Search Staff</button>
+            <button class="btn btn-outline" onclick="goToStep('team-needs')">📅 Plan Follow-up</button>
+            <button class="btn btn-primary" onclick="goToStep('team-export')">📥 Export Data (CSV/Excel)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-footer">
+        <button class="btn btn-outline" onclick="goToStep('team-login')">← Back to Login</button>
+        <button class="btn btn-primary" onclick="goToStep('team-search')">Next: Submissions List →</button>
+      </div>
+    </section>
+
+    <!-- Team Submissions (Search & Filter) -->
+    <section id="team-search" class="page-section">
+      <div class="page-header">
+        <div>
+          <h2>First Nations Self-Audit Dashboard | Submissions</h2>
+        </div>
+      </div>
+
+      <div class="stats-row" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 16px;">
+        <div class="card stat-card">
+          <div class="stat-title">Total Submissions</div>
+          <div class="stat-value">248</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-title">Need Review</div>
+          <div class="stat-value">18</div>
+        </div>
+        <div class="card stat-card alert">
+          <div class="stat-title">Support Requests</div>
+          <div class="stat-value val-alert">12</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="filter-controls-row">
+          <div>
+            <label>Search Course</label>
+            <input type="text" id="searchInput" placeholder="Search course code..." onkeyup="filterTableTeam()" />
+          </div>
+          <div>
+            <label>Faculty</label>
+            <select id="facultyFilter" onchange="filterTableTeam()">
+              <option value="All">All Disciplines</option>
+              <option value="InfoTech">InfoTech</option>
+              <option value="Computing">Computing</option>
+              <option value="Statistics">Statistics</option>
+            </select>
+          </div>
+          <div>
+            <label>Support Request</label>
+            <select id="supportFilter" onchange="filterTableTeam()">
+              <option value="All">All</option>
+              <option value="Yes">Assistance Requested</option>
+              <option value="No">No Assistance</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-reset" onclick="resetFilterTeam()">Reset</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <table id="tableTeam">
+          <thead>
+            <tr>
+              <th>Course Code</th>
+              <th>Course Name</th>
+              <th>Status</th>
+              <th>Assistance Flag</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>INFO 1012</td>
+              <td>Information technology systems</td>
+              <td>Completed</td>
+              <td><span class="badge badge-ok">No assistance requested</span></td>
+              <td><button class="btn btn-outline btn-sm" onclick="viewCourseDetails('INFO 1012', 'Information technology systems', 'InfoTech')">View Details ↗</button></td>
+            </tr>
+            <tr>
+              <td>COMP 1003</td>
+              <td>Structured Data</td>
+              <td>Completed</td>
+              <td><span class="badge badge-urgent">Assistance Requested (1-on-1 Guidance)</span></td>
+              <td><button class="btn btn-outline btn-sm" onclick="viewCourseDetails('COMP 1003', 'Structured Data', 'Computing')">View Details ↗</button></td>
+            </tr>
+            <tr>
+              <td>INFO 1016</td>
+              <td>Security Foundation</td>
+              <td>Completed</td>
+              <td><span class="badge badge-urgent">Assistance Requested (1-on-1 Guidance)</span></td>
+              <td><button class="btn btn-outline btn-sm" onclick="viewCourseDetails('INFO 1016', 'Security Foundation', 'InfoTech')">View Details ↗</button></td>
+            </tr>
+            <tr>
+              <td>STAT 1000</td>
+              <td>Data Skills</td>
+              <td>Completed</td>
+              <td><span class="badge badge-ok">No assistance requested</span></td>
+              <td><button class="btn btn-outline btn-sm" onclick="viewCourseDetails('STAT 1000', 'Data Skills', 'Statistics')">View Details ↗</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flow-footer">
+        <button class="btn btn-outline" onclick="goToStep('team-overview')">← Back to Overview</button>
+        <button class="btn btn-primary" onclick="goToStep('team-details')">Next: Details →</button>
+      </div>
+    </section>
+
+    <!-- Team Details -->
+    <section id="team-details" class="page-section">
+      <div class="page-header">
+        <div>
+          <h2>📋 Response Details</h2>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="goToStep('team-search')">← Back to Table</button>
+      </div>
+
+      <div class="details-two-col">
+        <div>
+          <div class="card">
+            <div class="info-list">
+              <p><strong>Course Code:</strong> <span id="detailCourseCode">COMP 1003</span></p>
+              <p><strong>Course Name:</strong> <span id="detailCourseName">Structured Data</span></p>
+              <p><strong>Discipline:</strong> <span id="detailFaculty">Computing</span></p>
+              <p><strong>Submission Date:</strong> 18/04/2026</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="section-heading">Ratings</h3>
+            <ul style="font-size: 0.88rem; line-height: 2; padding-left: 20px;">
+              <li>Teaching appropriate content: ●●●○○ (3/5)</li>
+              <li>Applying culturally-safe practices: ●●○○○ (2/5)</li>
+              <li>Seeking support where needed: ●●●●○ (4/5)</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <blockquote id="detailReflection" class="reflection-quote">
+              "In COMP 1003, we want to incorporate First Nations technologies into case studies, but need guidance on culturally appropriate resource repositories."
+            </blockquote>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <h3 class="section-heading">Requested Support</h3>
+            <div class="checkbox-stack">
+              <label><input type="checkbox" checked /> Guidance on appropriate resources</label>
+              <label><input type="checkbox" checked /> Examples of best practice</label>
+              <label><input type="checkbox" /> Teaching with community connection</label>
+              <label><input type="checkbox" /> Other tailored workshop</label>
+            </div>
+          </div>
+
+          <div class="card card-accent-top">
+            <h3 class="section-heading heading-accent">Education Team Actions / Notes</h3>
+            <textarea id="teamInternalNote" rows="3">Assigned to Cultural Advisor Jeremy. Scheduled 1-on-1 review for Week 9.</textarea>
+            <div class="btn-group-sm">
+              <button class="btn btn-primary btn-sm" onclick="alert('Note Saved!')">Save Note</button>
+              <button class="btn btn-outline btn-sm" onclick="alert('Marked Resolved!')">Mark Resolved</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-footer">
+        <button class="btn btn-outline" onclick="goToStep('team-search')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('team-needs')">Next: Needs Summary →</button>
+      </div>
+    </section>
+
+    <!-- Team Needs Summary -->
+    <section id="team-needs" class="page-section">
+      <div class="page-header">
+        <div>
+          <h2>📊 Support Needs Summary</h2>
+          <p>Turning responses into insights for action & planning</p>
+        </div>
+      </div>
+
+      <div class="needs-two-col">
+        <div class="card">
+          <h3 class="section-heading">Common Support Needs (Ranked by 26 academics)</h3>
+          <div class="chart-box-lg">
+            <canvas id="supportRankChart7"></canvas>
+          </div>
+          <p class="chart-insight">These insights help us focus our resources for upcoming deadlines.</p>
+        </div>
+
+        <div class="card">
+          <h3 class="section-heading">Planning Priorities</h3>
+          <div class="planning-items">
+            <p>1. Develop and share practical resource guides.</p>
+            <p>2. Provide teaching strategy support.</p>
+            <p>3. Showcase cross-faculty examples.</p>
+            <p>4. Strengthen community connections.</p>
+          </div>
+
+          <hr class="divider" />
+          <h4 class="subheading">Next Steps:</h4>
+          <div class="checkbox-stack">
+            <label><input type="checkbox" checked /> Develop quick-start package</label>
+            <label><input type="checkbox" checked /> Plan faculty working series</label>
+            <label><input type="checkbox" /> Collect and share best practices</label>
+            <label><input type="checkbox" /> Explore community partnership</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-footer">
+        <button class="btn btn-outline" onclick="goToStep('team-details')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('team-export')">Next: Export →</button>
+      </div>
+    </section>
+
+    <!-- Team Export -->
+    <section id="team-export" class="page-section">
+      <div class="page-header">
+        <div>
+          <h2>📄 Reporting & Export</h2>
+        </div>
+      </div>
+
+      <div class="export-two-col">
+        <div class="card">
+          <h3 class="export-step-title">1. Reporting Period</h3>
+          <div class="radio-stack">
+            <label><input type="radio" name="p_period" /> This Month</label>
+            <label><input type="radio" name="p_period" checked /> This Semester (Sem 1, 2026)</label>
+            <label><input type="radio" name="p_period" /> This Year</label>
+          </div>
+
+          <h3 class="export-step-title">2. Target Scope</h3>
+          <p style="font-size: 0.85rem; margin-bottom: 12px; color: var(--text-muted);">All Audited Courses (COMP 1003, STAT 1000, INFO 1012...)</p>
+
+          <h3 class="export-step-title">3. Include Sections</h3>
+          <div class="checkbox-stack mb-16">
+            <label><input type="checkbox" checked /> Participation & Engagement</label>
+            <label><input type="checkbox" checked /> Support Needs Breakdown</label>
+            <label><input type="checkbox" checked /> Thematic Reflections</label>
+            <label><input type="checkbox" checked /> Recommendations</label>
+          </div>
+
+          <h3 class="export-step-title">4. Export Format</h3>
+          <div class="format-options">
+            <label><input type="radio" name="exp_fmt" id="fmtPdf" checked /> PDF - Executive Summary</label>
+            <label><input type="radio" name="exp_fmt" id="fmtExcel" /> Excel - Detailed Data</label>
+          </div>
+
+          <button class="btn btn-primary btn-block" onclick="triggerDownload()">
+            Generate & Download Report
+          </button>
+        </div>
+
+        <div class="card preview-card">
+          <div class="preview-title">
+            <span>👁️ Report Preview</span>
+          </div>
+          <p style="font-size: 0.85rem; margin-bottom: 16px;">First Nations Portfolio Education Team Report</p>
+
+          <div class="preview-metrics-grid" style="grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="metric-pill">
+              <div class="pill-label">Staff Engaged</div>
+              <div class="pill-val">152</div>
+            </div>
+            <div class="metric-pill">
+              <div class="pill-label">Completion</div>
+              <div class="pill-val">87%</div>
+            </div>
+            <div class="metric-pill">
+              <div class="pill-label">Confidence</div>
+              <div class="pill-val">78%</div>
+            </div>
+            <div class="metric-pill">
+              <div class="pill-label">Actions</div>
+              <div class="pill-val">14</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-footer">
+        <button class="btn btn-outline" onclick="goToStep('team-needs')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('team-patterns')">Next: Emerging Patterns →</button>
+      </div>
+    </section>
+
+    <!-- Team Patterns -->
+    <section id="team-patterns" class="page-section">
+      <div class="page-header">
+        <div>
+          <h2>📈 Emerging Patterns & Strategic Insights</h2>
+          <p>Long-term multi-semester trends</p>
+        </div>
+      </div>
+
+      <div class="patterns-card-grid">
+        <div class="card border-top-primary">
+          <div class="pattern-card-title">1. Curriculum Emergence</div>
+          <p class="pattern-card-desc">High appetite for Indigenous tech perspectives in first-year courses.</p>
+        </div>
+        <div class="card border-top-secondary">
+          <div class="pattern-card-title">2. Increase in Support</div>
+          <p class="pattern-card-desc">More academics requesting 1-on-1 advisor consultations.</p>
+        </div>
+        <div class="card border-top-gold">
+          <div class="pattern-card-title">3. Common Themes</div>
+          <p class="pattern-card-desc">Staff anxiety around misrepresentation and cultural protocols.</p>
+        </div>
+        <div class="card border-top-blue">
+          <div class="pattern-card-title">4. Organization Values</div>
+          <p class="pattern-card-desc">Strong alignment with Reconciliation Action Plan deliverables.</p>
+        </div>
+      </div>
+
+      <div class="patterns-bottom-grid">
+        <div class="card">
+          <div class="card-title">Confidence Trend (All Courses)</div>
+          <div class="chart-box-md">
+            <canvas id="confidenceMultiSemChart9"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Strategic Planning Opportunities</div>
+          <ul style="font-size: 0.88rem; line-height: 2; padding-left: 18px; margin-top: 12px;">
+            <li>🎯 <strong>Targeted Professional Development</strong> (Computing & IT modules)</li>
+            <li>🏆 <strong>Share and Celebrate Practice</strong> (Annual curriculum showcase)</li>
+            <li>🤝 <strong>Strengthen Community Connection</strong> (Elder guest lecture networks)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flow-footer">
+        <button class="btn btn-outline" onclick="goToStep('team-export')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('team-overview')">🔄 Return to Overview</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
